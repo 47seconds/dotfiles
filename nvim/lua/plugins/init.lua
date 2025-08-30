@@ -1,50 +1,45 @@
--- return {
---   {
---     "stevearc/conform.nvim",
---     -- event = 'BufWritePre', -- uncomment for format on save
---     opts = require "configs.conform",
---   },
---
---   -- These are some examples, uncomment them if you want to see them work!
---   {
---     "neovim/nvim-lspconfig",
---     config = function()
---       require "configs.lspconfig"
---     end,
---   },
---
---   -- {
---   --   "nvim-treesitter/nvim-treesitter",
---   --   opts = {
---   --     ensure_installed = {
---   --       "vim", "lua", "vimdoc",
---   --       "html", "css"
---   --     },
---   --   },
---   -- },
--- }
-
 return {
-  {
-    "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
-    opts = require "configs.conform",
-  },
-  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require "configs.lspconfig"
+      require("nvchad.configs.lspconfig").defaults()
+      require("configs.lspconfig")
     end,
   },
-  -- Transparency plugin
+
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "clangd",
+        "gopls",
+        "rust-analyzer",
+        "pyright",
+        "typescript-language-server",
+        "clang-format",
+        "gofumpt",
+        "rustfmt",
+        "prettier",
+        "black",
+      },
+    },
+  },
+
+  {
+    "stevearc/conform.nvim",
+    event = "BufWritePre",
+    opts = function()
+      return require "configs.conform"
+    end,
+  },
+
   {
     "xiyaowong/transparent.nvim",
-    lazy = false,  -- Load immediately
-    priority = 1000,  -- Load early
+    lazy = false,    -- Load immediately
+    priority = 1000, -- Load early
     config = function()
       require("transparent").setup({
-        groups = { 
+        groups = {
           'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
           'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String',
           'Function', 'Conditional', 'Repeat', 'Operator', 'Structure',
@@ -53,7 +48,7 @@ return {
         extra_groups = {
           "NormalFloat",
           "NvimTreeNormal",
-          "NvimTreeNormalNC", 
+          "NvimTreeNormalNC",
           "TelescopeNormal",
           "TelescopeBorder",
           "TelescopePromptNormal",
@@ -66,17 +61,4 @@ return {
       vim.cmd("TransparentEnable")
     end
   },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "vim", "lua", "vimdoc",
-        "html", "css", "javascript", "typescript",
-        "c", "cpp", "json", "bash", "markdown", "markdown_inline"
-      },
-      highlight = {
-        enable = true,
-      },
-    },
-  }
 }
